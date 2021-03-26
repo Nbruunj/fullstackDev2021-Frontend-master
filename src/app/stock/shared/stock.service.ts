@@ -1,23 +1,29 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {Observable} from 'rxjs';
-import {ChatClient} from './chat-client.model';
-import {ChatMessage} from './chat-message.model';
-import {WelcomeDto} from './welcome.dto';
+import {StockModel} from './stock.model';
+
+import {StockDto} from './stock.dto';
 import {map} from 'rxjs/operators';
-import {SocketChat} from '../../app.module';
+import {SocketStock} from '../../app.module';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
-  chatClient: ChatClient | undefined;
+export class StockService {
+  stock: StockModel | undefined;
 
-  constructor(private socket: SocketChat) { }
+  constructor(private socket: SocketStock) { }
 
+  sendStock(stock: StockModel): void
+  {
+    this.socket.emit('stock', stock);
+  }
+
+  /*
   //From frontend to backend with emit
   sendMessage(msg: string){
-    this.socket.emit('message', msg);
+    this.socket.emit("message", msg);
   }
   sendTyping(typing: boolean): void {
     this.socket.emit('typing', typing);
@@ -34,9 +40,9 @@ export class ChatService {
       .fromEvent<ChatClient[]>("clients")
   }
 
-  listenForWelcome(): Observable<WelcomeDto> {
+  listenForWelcome(): Observable<StockDto> {
     return this.socket
-      .fromEvent<WelcomeDto>("welcome")
+      .fromEvent<StockDto>("welcome")
   }
 
   listenForClientTyping(): Observable<ChatClient> {
@@ -57,7 +63,7 @@ export class ChatService {
   sendName(name: string) {
     this.socket.emit("name", name);
   }
-
+*/
   disconnect(): void {
     this.socket.disconnect();
   }
