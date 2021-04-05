@@ -3,7 +3,7 @@
 
   <label>
     Name:
-    <input type="text" formControlName="name" id="name">
+    <input type="text" formControlName="stockName" id="stockName">
   </label>
 
   <label>
@@ -12,8 +12,13 @@
   </label>
 
   <label>
+    initValue:
+    <input type="number" formControlName="initValue">
+  </label>
+
+  <label>
     Start Value:
-    <input type="number" formControlName="value">
+    <input type="number" formControlName="currentValue">
   </label>
   <button type="button" (click)="sendStock()" >Send</button>
 </div>

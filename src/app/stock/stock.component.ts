@@ -15,10 +15,10 @@ import {StockModel} from './shared/stock.model';
 
 export class StockComponent implements OnInit, OnDestroy {
   stockfc = this.fb.group({
-    name: [''],
+    stockName: [''],
     initValue: [''],
     description: [''],
-    value: [''],
+    currentValue: [''],
   });
   nameFC = new FormControl('');
   unsubscribe$ = new Subject();
@@ -42,6 +42,7 @@ export class StockComponent implements OnInit, OnDestroy {
     if (this.stockfc.value)
     {
       this.stockService.sendStock(this.stockfc.value);
+      console.log(this.stockfc.value)
     }
   }
 }
