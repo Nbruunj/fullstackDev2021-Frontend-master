@@ -5,6 +5,8 @@ import {Observable, Subject, Subscription} from 'rxjs';
 
 import {StockService} from './shared/stock.service';
 import {StockModel} from './shared/stock.model';
+import {ChatClient} from '../chat/shared/chat-client.model';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -24,9 +26,13 @@ export class StockComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject();
   stockCreate: StockModel | undefined;
   error: string | undefined;
+  stocks$: Observable<StockModel[]> | undefined;
   constructor(private fb: FormBuilder, private stockService: StockService) { }
 
   ngOnInit(): void {
+
+    this.stocks$ = this.stockService.listenForStocks();
+    this.stockService.welcomeStocks();
   }
   sendMessage(): void {
     console.log(this.stockfc.value);

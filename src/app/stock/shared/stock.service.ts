@@ -20,6 +20,14 @@ export class StockService {
     this.socket.emit('stock', stock);
   }
 
+  listenForStocks(): Observable<StockModel[]> {
+    return this.socket
+      .fromEvent<StockModel[]>("stocks")
+  }
+
+  welcomeStocks(): void {
+    this.socket.emit("welcomeStock");
+  }
   /*
   //From frontend to backend with emit
   sendMessage(msg: string){
