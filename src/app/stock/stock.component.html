@@ -7,9 +7,12 @@
     <div class="card-body">
       <div *ngIf="stocks$ | async as stocks">
         <ul>
-          <li *ngFor="let stock of stocks">
-            {{stock.stockName}}
-          </li>
+          <h5 *ngFor="let stock of stocks">
+            <button type="button" class="btn btn-outline-info" style="width: 120px; vertical-align: baseline" aria-pressed="true" >
+              {{stock.stockName}}
+            </button>
+            {{stock.currentValue}}
+          </h5>
         </ul>
       </div>
     </div>
