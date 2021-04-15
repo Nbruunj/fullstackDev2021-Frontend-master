@@ -27,6 +27,7 @@ export class StockComponent implements OnInit, OnDestroy {
   stockCreate: StockModel | undefined;
   error: string | undefined;
   stocks$: Observable<StockModel[]> | undefined;
+  selectedStock: StockModel | undefined;
   constructor(private fb: FormBuilder, private stockService: StockService) { }
 
   ngOnInit(): void {
@@ -44,6 +45,10 @@ export class StockComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
+  onSelect(stock: StockModel): void
+  {
+    this.selectedStock = stock;
+  }
   sendStock(): void {
     if (this.stockfc.value)
     {
