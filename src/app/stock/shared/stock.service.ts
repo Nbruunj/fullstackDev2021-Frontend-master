@@ -6,12 +6,14 @@ import {StockModel} from './stock.model';
 import {StockDto} from './stock.dto';
 import {map} from 'rxjs/operators';
 import {SocketStock} from '../../app.module';
+import {JoinStockDto} from './Join-stock.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockService {
   stock: StockModel | undefined;
+
 
   constructor(private socket: SocketStock) { }
 
@@ -27,6 +29,9 @@ export class StockService {
 
   welcomeStocks(): void {
     this.socket.emit("welcomeStock");
+  }
+  joinStock(dto: JoinStockDto): void {
+    this.socket.emit('joinStock', dto);
   }
   /*
   //From frontend to backend with emit

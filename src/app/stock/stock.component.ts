@@ -7,6 +7,9 @@ import {StockService} from './shared/stock.service';
 import {StockModel} from './shared/stock.model';
 import {ChatClient} from '../chat/shared/chat-client.model';
 import {debounceTime, takeUntil} from 'rxjs/operators';
+import {Select, Store} from '@ngxs/store';
+import {StockState} from './state/stock.state';
+import {ListenForStocks} from './state/stock.actions';
 
 
 @Component({
@@ -16,21 +19,24 @@ import {debounceTime, takeUntil} from 'rxjs/operators';
 })
 
 export class StockComponent implements OnInit, OnDestroy {
+  @Select(StockState.stocks) stockClients$: Observable<StockModel[]> | undefined;
   stockfc = this.fb.group({
     stockName: [''],
     initValue: [''],
     description: [''],
     currentValue: [''],
   });
+
   nameFC = new FormControl('');
   unsubscribe$ = new Subject();
   stockCreate: StockModel | undefined;
   error: string | undefined;
   stocks$: Observable<StockModel[]> | undefined;
   selectedStock: StockModel | undefined;
-  constructor(private fb: FormBuilder, private stockService: StockService) { }
+  constructor(private fb: FormBuilder, private stockService: StockService, private store: Store) { }
 
   ngOnInit(): void {
+    this.store.dispatch(new ListenForStocks());
 
     this.stocks$ = this.stockService.listenForStocks();
     this.stockService.welcomeStocks();
