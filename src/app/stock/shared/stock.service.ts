@@ -33,6 +33,9 @@ export class StockService {
   joinStock(dto: JoinStockDto): void {
     this.socket.emit('joinStock', dto);
   }
+  updateStock(id: string, updateStock: StockModel): void{
+    this.socket.emit('updateStock', updateStock)
+  }
   /*
   //From frontend to backend with emit
   sendMessage(msg: string){

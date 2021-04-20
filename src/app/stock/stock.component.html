@@ -71,11 +71,14 @@
           Description:
           {{selectedStock.description}}
         </h6>
-        <h6 style="text-align:center">
-          Current Value
-          <input type="number" value="{{selectedStock.currentValue}}">
-          <button type="button" (click)="sendStock()">Update</button>
-        </h6>
+        <div [formGroup]="valueFC">
+          <label>
+            Current Value:
+            <input type="number" formControlName="value">
+          </label>
+        </div>
+        <button type="button" (click)="updateStock()">Update</button>
+        <div></div>
         <h6 style="text-align:center;">
           inital value =
           {{selectedStock.initValue}}

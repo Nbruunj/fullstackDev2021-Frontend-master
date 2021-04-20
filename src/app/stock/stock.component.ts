@@ -26,6 +26,9 @@ export class StockComponent implements OnInit, OnDestroy {
     description: [''],
     currentValue: [''],
   });
+  valueFC = this.fb.group({
+    value: ['']
+  });
 
   nameFC = new FormControl('');
   unsubscribe$ = new Subject();
@@ -33,7 +36,9 @@ export class StockComponent implements OnInit, OnDestroy {
   error: string | undefined;
   stocks$: Observable<StockModel[]> | undefined;
   selectedStock: StockModel | undefined;
-  constructor(private fb: FormBuilder, private stockService: StockService, private store: Store) { }
+
+  constructor(private fb: FormBuilder, private stockService: StockService, private store: Store) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new ListenForStocks());
@@ -41,6 +46,7 @@ export class StockComponent implements OnInit, OnDestroy {
     this.stocks$ = this.stockService.listenForStocks();
     this.stockService.welcomeStocks();
   }
+
   sendMessage(): void {
     console.log(this.stockfc.value);
   }
@@ -51,15 +57,28 @@ export class StockComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  onSelect(stock: StockModel): void
-  {
+  onSelect(stock: StockModel): void {
     this.selectedStock = stock;
   }
+
   sendStock(): void {
-    if (this.stockfc.value)
-    {
+    if (this.stockfc.value) {
       this.stockService.sendStock(this.stockfc.value);
       console.log(this.stockfc.value)
     }
   }
-}
+    updateStock(): void {
+      if(this.selectedStock)
+    {
+      this.stockService.updateStock(this.selectedStock.id,
+        {
+          id: this.selectedStock.id,
+          currentValue: this.valueFC.value.value,
+          description: this.selectedStock.description,
+          initValue: this.selectedStock.initValue,
+          stockName: this.selectedStock.stockName
+        });
+    }
+  }
+  }
+
